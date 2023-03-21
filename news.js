@@ -50,14 +50,13 @@ const allNewsNav = async () => {
 }
 allNewsNav()
 
+
 const allNews = async (id) => {
-    console.log(id)
     const response = await fetch(`https://openapi.programming-hero.com/api/news/category/${id}`);
     const data = await response.json();
     return data.data;
     // console.log(data)
 }
-// allNews('03')
 
 const spinner = isLoading => {
     const loadingSection = document.getElementById('loader')
@@ -68,7 +67,6 @@ const spinner = isLoading => {
         loadingSection.classList.add('d-none')
     }
 }
-
 
 const loadNews = async (id) => {
     spinner(true)
@@ -140,6 +138,85 @@ const loadNews = async (id) => {
     spinner(false)
 }
 
+
+const allNews2 = async () => {
+    const response = await fetch(`https://openapi.programming-hero.com/api/news/category/07`);
+    const data = await response.json();
+    return data.data;
+    // console.log(data)
+}
+
+const loadNews2 = async () => {
+    spinner(true)
+    const breakingNews = await allNews2()
+    breakingNews.textContent = " ";
+    console.log(breakingNews)
+
+    const Result = document.getElementById('search-result');
+    Result.innerHTML = "";
+
+
+    if (breakingNews.length === 0) {
+        const div = document.createElement('div');
+        // div.classList.add('div1')
+        div.innerHTML = `<h1 class="text-secondary  ">No Result Found</h1>`;
+        Result.appendChild(div)
+
+    }
+
+    for (const news of breakingNews) {
+        console.log(news)
+        const { details, title, image_url, total_view, _id } = news;
+        const { name, published_date, img } = news.author;
+
+
+        const div = document.createElement('div');
+        div.innerHTML = `
+    
+            <div class="card mb-3 border-0 shadow-lg p-3 mb-5 bg-body rounded">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="${image_url}" class="img-fluid rounded-start main-post-img my-3" alt="...">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h4 class="card-title">${title}</h4>
+                        <p class="card-text text-secondary">${details.length > 240 ? details.slice(0, 240) + '...' : details}</p>
+    
+    
+                       <div class="container text-center">
+                         <div class="row d-flex align-items-center justify-content-start">
+                           <div class="col-12 col-lg-4 d-flex justify-content-start">
+                              <img class="post-img" src="${img}">
+                              <ul style="list-style-type: none;" class='ps-3'>
+                              <li class='post-writer'>${name === null || name === '' ? 'no data' : name}</li>
+                              <li class='post-writer'>${published_date === null ? 'no data' : published_date}</li>
+                          </ul>
+                            </div>
+                            <div class="col-12 col-lg-4  d-flex justify-content-start">
+                              <span class='view my-4 text-secondary'>view : ${total_view === null || total_view === undefined ? 'no data' : total_view}</span>
+                            </div>
+                            <div class="col-12 col-lg-4 d-flex justify-content-start">
+                            <button type="button"  onclick="loadNewsById('${_id}')" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            More info..
+                        </button> 
+    
+                            </div>
+                         </div>
+                        </div>
+    
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+            `;
+        Result.appendChild(div)
+    }
+    spinner(false)
+}
+
+loadNews2()
 
 
 const loadNewsById = news_id => {
