@@ -1,0 +1,34 @@
+.news-ul li {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.news-btn span {
+
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.news-btn span:hover {
+    color: rgba(0, 0, 255, 0.599);
+}
+
+.post-img {
+    width: 2.5rem;
+    height: 3.6rem;
+    border-radius: 50%;
+}
+
+.post-writer {
+    font-size: 15px;
+    width: 10rem;
+}
+
+.view {
+    font-size: 20px;
+    font-weight: 600;
+    width: 6rem;
+    text-align: center;
+
+}
